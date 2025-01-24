@@ -1,0 +1,9 @@
+main (argc=1, argv=0x7fffffffdb18) at main.c:371
+Starting program: /home/pde-petr/Documents/PushSwap42/push_swap 18 32 33
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, ft_analysis (tab_a=0x4062c0, tab_b=0x4062a0, max_a=3) at main.c:273
+Quit
+
+Breakpoint 1, ft_analysis (tab_a=0x4062c0, tab_b=0x4062a0, max_a=2) at main.c:273

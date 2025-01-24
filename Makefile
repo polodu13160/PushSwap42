@@ -1,7 +1,8 @@
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re init
 
 CC = cc
-FLAGS = -Wall -Wextra -Werror -g3
+#FLAGS = -Wall -Wextra -Werror -g3
+FLAGS = -Wall -Wextra -g3
 NAME = push_swap
 SRCS = main.c
 PRINTF_DIR = ./printf42lyon
@@ -24,10 +25,15 @@ clean:
 	rm -f $(OBJS)
 	$(MAKE) -C $(PRINTF_DIR) clean
 
+
 fclean: clean
 	rm -f $(NAME)
 	$(MAKE) -C $(PRINTF_DIR) fclean
 
 re: fclean all
+
+init:
+	$(MAKE) re
+	$(MAKE) clean
 
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_push_swap.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pauldepetrini <pauldepetrini@student.42    +#+  +:+       +#+        */
+/*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 20:27:27 by pauldepetri       #+#    #+#             */
-/*   Updated: 2024/12/23 00:57:12 by pauldepetri      ###   ########.fr       */
+/*   Updated: 2025/01/15 21:08:21 by pde-petr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 
 # include "printf42lyon/ft_printf.h"
 
-typedef struct s_int
+typedef struct s_int_ext
 {
 	int				value;
-	char			*content;
-
-	struct s_int	*next;
-}					t_int;
+	int				rank;
+	int				asc_rank;
+	int 			desc_rank;
+}					t_int_ext;
 int					ft_check_tab(char **tab);
 
 void				ft_full_swap(int **tab_a, int *tab_b);
