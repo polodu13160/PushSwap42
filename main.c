@@ -6,22 +6,13 @@
 /*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 11:20:39 by pauldepetri       #+#    #+#             */
-/*   Updated: 2025/01/22 22:47:54 by pde-petr         ###   ########.fr       */
+/*   Updated: 2025/01/29 22:21:18 by pde-petr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_push_swap.h"
 
-int	ft_check_number(char *str)
-{
-	while (*str)
-	{
-		if (!ft_isdigit(*str))
-			return (0);
-		str++;
-	}
-	return (1);
-}
+
 
 t_int_ext	*ft_new_t_int(int value)
 {
@@ -31,25 +22,26 @@ t_int_ext	*ft_new_t_int(int value)
 	if (list == NULL)
 		return (NULL);
 	list->value = value;
+	list->asc_rank = -1;
+	list->desc_rank = -1;
+	list->rank = -1;
 	return (list);
 }
-
-int	check_and_count_tab(char **tab)
+void	ft_free_list(t_list **tab)
 {
-	int	i;
+	t_list	*temp;
 
-	i = 0;
-	while (tab[i])
+	while (*tab)
 	{
-		if (!ft_check_number(tab[i]))
-		{
-			ft_putendl_fd("Error\n", 2);
-			return (-1);
-		}
-		i++;
+		temp = *tab;
+		*tab = (*tab)->next;
+		free(temp->content);
+		free(temp);
 	}
-	return (i);
+	free(tab);
 }
+
+
 
 void	*ft_push(int **dest, int **src, char *instruction, int max_dest,
 		int max_src)
@@ -133,8 +125,6 @@ int	*ft_rotate(int **tab, char *instruction, int max_tab)
 // 	return (0);
 // }
 
-#include "ft_push_swap.h"
-
 void	ft_rank(t_list **tab_a)
 {
 	t_list	*temp;
@@ -203,11 +193,11 @@ void	*ft_sa(t_list **tab_a)
 	ft_printf("%s", "sa\n");
 }
 
-void ft_ra(t_list **tab)
+void	ft_ra(t_list **tab)
 {
-	t_list *temp;
-	
-	t_list *one_for_list;
+	t_list	*temp;
+	t_list	*one_for_list;
+
 	one_for_list = (*tab);
 	temp = (*tab);
 	while (temp->next != NULL)
@@ -220,21 +210,20 @@ void ft_ra(t_list **tab)
 	ft_printf("%s", "ra\n");
 }
 
-void ft_rra(t_list **tab){
+void	ft_rra(t_list **tab)
+{
+	t_list	*penultimate;
+	t_list	*last_tab;
 
-	t_list *penultimate;
-	t_list *last_tab;
 	last_tab = (*tab);
-	
 	while (last_tab->next != NULL)
 	{
 		penultimate = last_tab;
-		last_tab = last_tab->next;	
+		last_tab = last_tab->next;
 	}
 	penultimate->next = NULL;
 	last_tab->next = *tab;
 	*tab = last_tab;
-	
 	ft_printf("%s", "rra\n");
 }
 
@@ -246,145 +235,184 @@ void ft_rra(t_list **tab){
 // 	t_list *temp;
 
 // 	temp = *tab;
-	
+
 // 	while (last_tab->next != NULL)
 //     {
 //         penultimate = last_tab;
-//         last_tab = last_tab->next; 
+//         last_tab = last_tab->next;
 //     }
 // 	penultimate->next = NULL;
 // 	last_tab->next = *tab;
 // 	*tab = last_tab;
-	
+
 // 	ft_printf("%s", "rra\n");
 // }
 
+// else if (min_asc > min_desc)
+// {
+// }
+// ft_sort(tab_a, tab_b, max_a);
 
-
-void	ft_analysis(t_list **tab_a, t_list **tab_b, int max_a)
+void	ft_analysis(t_list **tab_a, int max_a)
 {
-	
-	t_list	*temp;
-	t_list	*temp_compare;
-	int		min_desc;
-	int		min_asc;
-	static int middle = -1;
-
-	if (middle == -1)
-	{
-		middle = max_a / 2;
-		ft_rank(tab_a);
-	}
-	min_desc = -1;
-	ft_task(tab_a);
-	temp = *tab_a;
-	// printf("%d \n", max_a / 2);
-	while (temp)
-	{
-		if (((t_int_ext *)temp->content)->rank <= middle)
-		{
-			if (min_desc == -1)
-			{
-				min_desc = ((t_int_ext *)temp->content)->desc_rank;
-				min_asc = ((t_int_ext *)temp->content)->asc_rank;
-			}
-			if (min_desc > ((t_int_ext *)temp->content)->desc_rank)
-				min_desc = ((t_int_ext *)temp->content)->desc_rank;
-			if (min_asc > ((t_int_ext *)temp->content)->asc_rank)
-				min_asc = ((t_int_ext *)temp->content)->desc_rank;
-		}
-		temp = temp->next;
-	}
-	printf("min_ask :%d  min desk : %d\n", min_asc, min_desc);
-	if (min_desc == -1)
-	{
-		ft_rank(tab_b);
-		ft_task(tab_b);
-
-		t_list *current = *tab_b;
-
-		while (current)
-		{
-			t_int_ext *content = (t_int_ext *)current->content;
-			printf("value : %d  ||  rank : %d  || task_desk : %d|| task_asc: % d \n ", content->value, content->rank, content->desc_rank,
-					content->asc_rank);
-			current = current->next;
-		}
-		
-	}
-	else if (min_desc == 0 || min_asc == 0)
-	{
-		ft_pb(tab_a, tab_b);
-		max_a--;
-		ft_analysis(tab_a, tab_b, max_a);
-	}
-	else if ((*tab_a)->next != NULL && middle <= max_a )
-	{
-		if (((t_int_ext *)(*tab_a)->content)->rank > ((t_int_ext *)(*tab_a)->next->content)->rank)
-		{
-			// ft_sa(tab_a);
-			ft_sa(tab_a);
-			// ft_ra(tab_a);
-		}
-		else if ((min_desc > min_asc))
-			ft_ra(tab_a);
-		else 
-			ft_rra(tab_a);
-		// ft_analysis(tab_a, tab_b, max_a);
-	}
-	
-
-
-	
-
-	// else if (min_asc > min_desc)
+	ft_rank(tab_a);
+	// if (middle == -1)
 	// {
+	// 	middle = max_a / 2;
 	// }
-	// ft_sort(tab_a, tab_b, max_a);
+	// min_desc = -1;
+	// ft_task(tab_a);
+	// temp = *tab_a;
+	// // printf("%d \n", max_a / 2);
+	// while (temp)
+	// {
+	// 	if (((t_int_ext *)temp->content)->rank <= middle)
+	// 	{
+	// 		if (min_desc == -1)
+	// 		{
+	// 			min_desc = ((t_int_ext *)temp->content)->desc_rank;
+	// 			min_asc = ((t_int_ext *)temp->content)->asc_rank;
+	// 		}
+	// 		if (min_desc > ((t_int_ext *)temp->content)->desc_rank)
+	// 			min_desc = ((t_int_ext *)temp->content)->desc_rank;
+	// 		if (min_asc > ((t_int_ext *)temp->content)->asc_rank)
+	// 			min_asc = ((t_int_ext *)temp->content)->desc_rank;
+	// 	}
+	// 	temp = temp->next;
+	// }
+}
+void	ft_init_tab_b(t_list tab_b, t_list tab_a)
+{
+}
+void create_node(char *value, t_list **tab_a)
+{
+	int int_atoi;
+
+	int_atoi = ft_atoi(value);
+	ft_lstadd_back(tab_a, ft_lstnew((void *)ft_new_t_int(int_atoi)));
+}
+void ft_free_tab(char **tab)
+{
+	int i;
+	i = 0;
+	while (tab[i])
+	{
+		free(tab[i]);
+		i++;
+	}
+	free(tab);
+}
+int  check_number(char *str)
+{
+	while (*str)
+	{
+		if ((*str == '-' ||  *str == '+')|| (*str >= '0' && *str <= '9'));
+		else 
+			return (1);
+		str++;
+	}
+	return 0;
+}
+
+int create_list(char **argv, t_list **tab_a)
+{
+	char **tab_split;
+	tab_split = NULL;
+	int i;
+
+	while (*argv)
+	{
+		i = 0;
+		tab_split = ft_split(*argv, ' ');
+		while (tab_split[i])
+		{
+			if (check_number(tab_split[i]) == 1)
+			{
+				ft_free_tab(tab_split);
+				ft_free_list(tab_a);
+				return (1);
+			}
+			create_node(tab_split[i], tab_a);
+			i++;
+		}
+		ft_free_tab(tab_split);
+		argv++;
+	}
+	if (check_duplicate_number(tab_a) == 1)
+		return 1;
+	return 0;
+}
+check_duplicate_number(t_list **tab)
+{
+	t_list *start;
+	t_list *temp;
+	
+	start = *tab;
+
+	while (*tab)
+	{
+		temp = start;
+		while (temp)
+		{
+			if ((temp != *tab) && (((t_int_ext *)temp->content)->value) == ((t_int_ext *)(*tab)->content)->value)
+			{
+				ft_free_list(tab);
+				return 1;
+			}
+			temp = temp->next;
+		}
+		*tab = (*tab)->next;
+	}
+	*tab = start;
+	return 0;
 }
 
 int	main(int argc, char **argv)
 {
 	t_list **tab_a;
-	t_list **tab_b;
+	// t_list **tab_b;
+	char **tab;
 	int max_a;
 	t_list *current;
 	t_int_ext *content;
 	t_list *temp;
 
-	tab_b = malloc(sizeof(t_list *));
-	tab_a = malloc(sizeof(t_list *));
+	// tab_b = malloc(sizeof(t_list **));
+	tab_a = malloc(sizeof(t_list **));
+	*tab_a = NULL;
 	if (!tab_a)
 		return (1);
 	if (argc > 1)
 	{
-		max_a = check_and_count_tab(++argv);
-		if (max_a == -1)
+		if (create_list(++argv, tab_a) == 1)
+		{
+			ft_putendl_fd("Error \n", 2);
 			return (1);
-		while (*argv)
-			ft_lstadd_back(tab_a,
-				ft_lstnew((void *)ft_new_t_int(atoi(*argv++))));
+		}
+		
+			
+
+		// ft_analysis(tab_a, max_a);
+		// ft_init_tab_b(tab_b, tab_a);
+
+		current = *tab_a;
+
+		while (current)
+		{
+			content = (t_int_ext *)current->content;
+			printf("value : %d  ||  rank : %d  || task_desk : %d|| task_asc:% d \n ", content->value, content->rank, content->desc_rank,
+				content->asc_rank);
+			current = current->next;
+		}
+
+		while (*tab_a)
+		{
+			temp = *tab_a;
+			*tab_a = (*tab_a)->next;
+			free(temp->content);
+			free(temp);
+		}
+		free(tab_a);
 	}
-
-	ft_analysis(tab_a, tab_b, max_a);
-
-	current = *tab_a;
-
-	// while (current)
-	// {
-	// 	content = (t_int_ext *)current->content;
-	// 	printf("value : %d  ||  rank : %d  || task_desk : %d|| task_asc: % d \n ", content->value, content->rank, content->desc_rank,
-	// 				content->asc_rank);
-	// 	current = current->next;
-	// }
-
-	while (*tab_a)
-	{
-		temp = *tab_a;
-		*tab_a = (*tab_a)->next;
-		free(temp->content);
-		free(temp);
-	}
-	free(tab_a);
 	return (0);
 }
