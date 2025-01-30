@@ -18,7 +18,7 @@ $(NAME): $(OBJS) $(PRINTF) Makefile
 %.o: %.c
 	$(CC) $(FLAGS) -c $< -o $@
 
-$(PRINTF):
+$(PRINTF): 
 	$(MAKE) -C $(PRINTF_DIR)
 
 clean:

@@ -6,7 +6,7 @@
 /*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 11:20:39 by pauldepetri       #+#    #+#             */
-/*   Updated: 2025/01/29 22:21:18 by pde-petr         ###   ########.fr       */
+/*   Updated: 2025/01/30 16:28:00 by pde-petr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,9 +253,9 @@ void	ft_rra(t_list **tab)
 // }
 // ft_sort(tab_a, tab_b, max_a);
 
-void	ft_analysis(t_list **tab_a, int max_a)
-{
-	ft_rank(tab_a);
+// void	ft_analysis(t_list **tab_a, int max_a)
+// {
+	// ft_rank(tab_a);
 	// if (middle == -1)
 	// {
 	// 	middle = max_a / 2;
@@ -280,16 +280,22 @@ void	ft_analysis(t_list **tab_a, int max_a)
 	// 	}
 	// 	temp = temp->next;
 	// }
-}
+// }
 void	ft_init_tab_b(t_list tab_b, t_list tab_a)
 {
 }
-void create_node(char *value, t_list **tab_a)
+int create_node(char *value, t_list **tab_a)
 {
+	int	error;
 	int int_atoi;
 
-	int_atoi = ft_atoi(value);
-	ft_lstadd_back(tab_a, ft_lstnew((void *)ft_new_t_int(int_atoi)));
+	error = 0;
+	int_atoi = ft_atoi(value, &error);
+	if (error == -1)
+		return (1);
+	
+	ft_lstadd_back(tab_a, ft_lstnew((void *)ft_new_t_int((int_atoi))));
+	return 0;
 }
 void ft_free_tab(char **tab)
 {
@@ -313,40 +319,12 @@ int  check_number(char *str)
 	}
 	return 0;
 }
-
-int create_list(char **argv, t_list **tab_a)
-{
-	char **tab_split;
-	tab_split = NULL;
-	int i;
-
-	while (*argv)
-	{
-		i = 0;
-		tab_split = ft_split(*argv, ' ');
-		while (tab_split[i])
-		{
-			if (check_number(tab_split[i]) == 1)
-			{
-				ft_free_tab(tab_split);
-				ft_free_list(tab_a);
-				return (1);
-			}
-			create_node(tab_split[i], tab_a);
-			i++;
-		}
-		ft_free_tab(tab_split);
-		argv++;
-	}
-	if (check_duplicate_number(tab_a) == 1)
-		return 1;
-	return 0;
-}
-check_duplicate_number(t_list **tab)
+int check_duplicate_number(t_list **tab)
 {
 	t_list *start;
 	t_list *temp;
 	
+	printf("123");
 	start = *tab;
 
 	while (*tab)
@@ -365,6 +343,52 @@ check_duplicate_number(t_list **tab)
 	}
 	*tab = start;
 	return 0;
+}
+
+int create_list(char **argv, t_list **tab_a)
+{
+	char **tab_split;
+	tab_split = NULL;
+	int i;
+	while (*argv)
+	{
+		i = 0;
+		tab_split = ft_split(*argv, ' ');
+		while (tab_split[i])
+		{
+			if (check_number(tab_split[i]) == 1)
+			{
+				ft_free_tab(tab_split);
+				ft_free_list(tab_a);
+				return (1);
+			}
+			if (create_node(tab_split[i], tab_a) == 1)
+			{
+				ft_free_tab(tab_split);
+				ft_free_list(tab_a);
+				return (1);
+			};
+			
+			i++;
+		}
+		ft_free_tab(tab_split);
+		argv++;
+	}
+	if (check_duplicate_number(tab_a) == 1)
+		return 1;
+	return 0;
+}
+
+
+void ft_run(t_list **tab, t_list **tab_dest)
+{
+	
+}
+void ft_analysis(t_list **tab)
+{
+	ft_rank(tab);
+	ft_task(tab);
+	// ft_run(tab,);
 }
 
 int	main(int argc, char **argv)
@@ -392,7 +416,7 @@ int	main(int argc, char **argv)
 		
 			
 
-		// ft_analysis(tab_a, max_a);
+		ft_analysis(tab_a);
 		// ft_init_tab_b(tab_b, tab_a);
 
 		current = *tab_a;
