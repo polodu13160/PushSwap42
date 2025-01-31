@@ -6,7 +6,7 @@
 /*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 20:27:27 by pauldepetri       #+#    #+#             */
-/*   Updated: 2025/01/15 21:08:21 by pde-petr         ###   ########.fr       */
+/*   Updated: 2025/01/31 18:32:55 by pde-petr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,18 @@ typedef struct s_int_ext
 	int				asc_rank;
 	int 			desc_rank;
 }					t_int_ext;
+typedef struct s_stock_int
+{
+	int				value;
+	int				min_a;
+	int				max_b;
+	t_list			*temp_a;
+	t_list			*temp_b;
+	int				asc_tab_a;
+	int				asc_tab_b;	
+}					t_stock_int;
+
+
 int					ft_check_tab(char **tab);
 
 void				ft_full_swap(int **tab_a, int *tab_b);

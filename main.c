@@ -6,7 +6,7 @@
 /*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 11:20:39 by pauldepetri       #+#    #+#             */
-/*   Updated: 2025/01/31 00:25:04 by pde-petr         ###   ########.fr       */
+/*   Updated: 2025/01/31 21:02:11 by pde-petr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,6 +177,17 @@ void	*ft_pb(t_list **tab_a, t_list **tab_b)
 	ft_lstadd_front(tab_b, temp);
 	ft_printf("%s", "pb\n");
 }
+void	*ft_pa(t_list **tab_b, t_list **tab_a)
+{
+	t_list	*temp;
+
+	temp = *tab_b;
+	*tab_b = (*tab_b)->next;
+	temp->next = NULL;
+	ft_lstadd_front(tab_a, temp);
+	ft_printf("%s", "pa\n");
+}
+
 void	*ft_sa(t_list **tab_a)
 {
 	t_list	*temp;
@@ -187,6 +198,17 @@ void	*ft_sa(t_list **tab_a)
 	temp->next = (*tab_a)->next;
 	(*tab_a)->next = temp;
 	ft_printf("%s", "sa\n");
+}
+void	*ft_sb(t_list **tab_b)
+{
+	t_list	*temp;
+
+	// t_list	*next;
+	temp = *tab_b;
+	*tab_b = (*tab_b)->next;
+	temp->next = (*tab_b)->next;
+	(*tab_b)->next = temp;
+	ft_printf("%s", "sb\n");
 }
 
 void	ft_ra(t_list **tab)
@@ -206,6 +228,23 @@ void	ft_ra(t_list **tab)
 	ft_printf("%s", "ra\n");
 }
 
+void	ft_rb(t_list **tab)
+{
+	t_list	*temp;
+	t_list	*one_for_list;
+
+	one_for_list = (*tab);
+	temp = (*tab);
+	while (temp->next != NULL)
+	{
+		temp = temp->next;
+	}
+	*tab = (*tab)->next;
+	one_for_list->next = NULL;
+	temp->next = one_for_list;
+	ft_printf("%s", "rb\n");
+}
+
 void	ft_rra(t_list **tab)
 {
 	t_list	*penultimate;
@@ -221,6 +260,22 @@ void	ft_rra(t_list **tab)
 	last_tab->next = *tab;
 	*tab = last_tab;
 	ft_printf("%s", "rra\n");
+}
+void	ft_rrb(t_list **tab)
+{
+	t_list	*penultimate;
+	t_list	*last_tab;
+
+	last_tab = (*tab);
+	while (last_tab->next != NULL)
+	{
+		penultimate = last_tab;
+		last_tab = last_tab->next;
+	}
+	penultimate->next = NULL;
+	last_tab->next = *tab;
+	*tab = last_tab;
+	ft_printf("%s", "rrb\n");
 }
 
 // void ft_rra(t_list **tab){
@@ -422,7 +477,13 @@ void	ft_run(t_list **tab, t_list **tab_dest, int middle)
 			ft_rra(tab);
 	}
 }
-void	ft_analysis(t_list **tab, t_list **tab_dest)
+void ft_ss()
+{
+	
+}
+
+
+int	ft_analysis(t_list **tab, t_list **tab_dest)
 {
 	static int	init;
 	static int	middle;
@@ -454,6 +515,93 @@ void	ft_analysis(t_list **tab, t_list **tab_dest)
 	}
 }
 
+int ft_clean_up(t_stock_int stock, t_list **tab_a, t_list **tab_b )
+{
+	static int init;
+	if (((t_int_ext*)stock.temp_a->content)->value == (((t_int_ext*)(*tab_a)->content)->rank))
+	{
+		if (((t_int_ext*)stock.temp_b->content)->value == (((t_int_ext*)(*tab_b)->content)->rank))
+		{
+			ft_pa(tab_b, tab_a);
+			return 3;
+		}
+		else 
+		{
+			if (((t_int_ext*)stock.temp_b->content)->value < ((t_int_ext*)stock.temp_b->next->content)->value)
+					ft_sb(tab_b);
+			else if (stock.asc_tab_b == 1)
+				ft_rrb(tab_b);
+			else 
+				ft_rb(tab_b);
+			return 0;
+		}
+	}
+	else if (((t_int_ext*)stock.temp_b->content)->value == (((t_int_ext*)(*tab_b)->content)->rank))
+		{
+			if (((t_int_ext*)stock.temp_a->content)->value < ((t_int_ext*)stock.temp_a->next->content)->value)
+				ft_sa(tab_a);	
+			else if (stock.asc_tab_a == 1)
+				ft_rra(tab_a);
+			else 
+				ft_ra(tab_a);
+			return 0;
+		}
+	else 
+	{
+		if (((t_int_ext*)stock.temp_a->content)->value < ((t_int_ext*)stock.temp_a->next->content)->value)
+		{
+			if (((t_int_ext*)stock.temp_b->content)->value < ((t_int_ext*)stock.temp_b->next->content)->value)
+				ft_ss()
+			else 
+				ft_sa(tab_a);
+		}
+				
+	}
+	
+
+}
+void ft_sort(t_list **tab_a, t_list **tab_b)
+{
+	static int init;
+	static t_stock_int  stock;
+	
+	if (init == 0)
+	{
+		init = 1;
+		stock.min_a = (ft_lstsize(*tab_a) + ft_lstsize(*tab_b)) / 2;
+		stock.max_b = stock.min_a - 1;
+	}
+	
+	stock.temp_a = *tab_a;
+	stock.temp_b = *tab_b;
+	ft_task(tab_a);
+	ft_task(tab_b);
+
+	while (((t_int_ext*)stock.temp_a->content)->rank != stock.min_a)
+		stock.temp_a = stock.temp_a->next; 
+	while (((t_int_ext*)stock.temp_b->content)->rank != stock.max_b)
+		stock.temp_b = stock.temp_b->next; 
+
+	// printf("mina %d,max b%d\n", stock.min_a,stock.max_b);
+	stock.asc_tab_a = ((t_int_ext*)stock.temp_a->content)->asc_rank > ((t_int_ext*)stock.temp_a->content)->desc_rank;
+	stock.asc_tab_b = ((t_int_ext*)stock.temp_b->content)->asc_rank > ((t_int_ext*)stock.temp_b->content)->desc_rank;
+	stock.value = ft_clean_up(stock, tab_a, tab_b) ;
+	if (stock.value == 1)
+	 	stock.min_a++;
+	if (stock.value == 2)
+	 	stock.max_b++;
+	if (stock.value == 3)
+	{
+		stock.min_a++;
+		stock.max_b++;
+	}
+	
+	
+	
+	
+	
+}
+
 int	main(int argc, char **argv)
 {
 	t_list		**tab_a;
@@ -478,6 +626,7 @@ int	main(int argc, char **argv)
 			return (1);
 		}
 		ft_analysis(tab_a, tab_b);
+		ft_sort(tab_a, tab_b);
 		// ft_init_tab_b(tab_b, tab_a);
 		current = *tab_a;
 		while (current)
