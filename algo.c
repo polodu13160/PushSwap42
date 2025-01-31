@@ -72,6 +72,54 @@ void	ft_analysis(t_list **tab_a, t_list **tab_b, int max_a)
 
 }
 
+void	ft_run(t_list **tab, t_list **tab_dest)
+{
+	static int	middle;
+	t_list		*temp;
+	t_list		*min_desc;
+	t_list		*min_asc;
+
+	if (middle == 0)
+		middle = ft_lstsize(*tab) / 2;
+	temp = *tab;
+	min_asc = NULL;
+	min_desc = NULL;
+	while (temp)
+	{
+		if (((t_int_ext *)temp->content)->rank <= middle)
+		{
+			if (min_desc == NULL
+				|| min_desc > ((t_int_ext *)temp->content)->desc_rank)
+				min_desc = temp;
+			if (min_asc == NULL
+				|| min_asc > ((t_int_ext *)temp->content)->asc_rank)
+				min_asc = temp;
+		}
+		temp = temp->next;
+	}
+	printf("middle = %d min desc : %d, min asc : %d\n", middle, ((t_int_ext *)min_desc->content)->desc_rank,
+		((t_int_ext *)min_asc->content)->desc_rank);
+
+		
+	if (min_desc != NULL && (((t_int_ext *)min_asc->content)->asc_rank == 0
+			|| ((t_int_ext *)min_desc->content)->desc_rank == 0))
+		ft_pb(tab, tab_dest);
+	else if (min_desc != NULL)
+	{
+		if (((t_int_ext *)min_asc->content)->asc_rank == ((t_int_ext *)min_desc->content)->desc_rank)
+		{
+			if (((t_int_ext *)min_asc->content)->rank > ((t_int_ext *)min_desc->content)->rank)
+				ft_rra(tab);
+			else 
+				ft_ra(tab);
+		}
+		else if (((t_int_ext *)min_asc->content)->asc_rank > ((t_int_ext *)min_desc->content)->desc_rank)
+			ft_rra(tab);
+		else if (min_asc < min_desc)
+			ft_ra(tab);
+	}
+}
+
 
 
 

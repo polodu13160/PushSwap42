@@ -6,13 +6,11 @@
 /*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 11:20:39 by pauldepetri       #+#    #+#             */
-/*   Updated: 2025/01/30 16:28:00 by pde-petr         ###   ########.fr       */
+/*   Updated: 2025/01/31 00:25:04 by pde-petr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_push_swap.h"
-
-
 
 t_int_ext	*ft_new_t_int(int value)
 {
@@ -40,8 +38,6 @@ void	ft_free_list(t_list **tab)
 	}
 	free(tab);
 }
-
-
 
 void	*ft_push(int **dest, int **src, char *instruction, int max_dest,
 		int max_src)
@@ -135,7 +131,7 @@ void	ft_rank(t_list **tab_a)
 	while (temp)
 	{
 		temp_compare = *tab_a;
-		rank = 1;
+		rank = 0;
 		while (temp_compare)
 		{
 			if (((t_int_ext *)temp->content)->value > ((t_int_ext *)temp_compare->content)->value)
@@ -255,51 +251,51 @@ void	ft_rra(t_list **tab)
 
 // void	ft_analysis(t_list **tab_a, int max_a)
 // {
-	// ft_rank(tab_a);
-	// if (middle == -1)
-	// {
-	// 	middle = max_a / 2;
-	// }
-	// min_desc = -1;
-	// ft_task(tab_a);
-	// temp = *tab_a;
-	// // printf("%d \n", max_a / 2);
-	// while (temp)
-	// {
-	// 	if (((t_int_ext *)temp->content)->rank <= middle)
-	// 	{
-	// 		if (min_desc == -1)
-	// 		{
-	// 			min_desc = ((t_int_ext *)temp->content)->desc_rank;
-	// 			min_asc = ((t_int_ext *)temp->content)->asc_rank;
-	// 		}
-	// 		if (min_desc > ((t_int_ext *)temp->content)->desc_rank)
-	// 			min_desc = ((t_int_ext *)temp->content)->desc_rank;
-	// 		if (min_asc > ((t_int_ext *)temp->content)->asc_rank)
-	// 			min_asc = ((t_int_ext *)temp->content)->desc_rank;
-	// 	}
-	// 	temp = temp->next;
-	// }
+// ft_rank(tab_a);
+// if (middle == -1)
+// {
+// 	middle = max_a / 2;
+// }
+// min_desc = -1;
+// ft_task(tab_a);
+// temp = *tab_a;
+// // printf("%d \n", max_a / 2);
+// while (temp)
+// {
+// 	if (((t_int_ext *)temp->content)->rank <= middle)
+// 	{
+// 		if (min_desc == -1)
+// 		{
+// 			min_desc = ((t_int_ext *)temp->content)->desc_rank;
+// 			min_asc = ((t_int_ext *)temp->content)->asc_rank;
+// 		}
+// 		if (min_desc > ((t_int_ext *)temp->content)->desc_rank)
+// 			min_desc = ((t_int_ext *)temp->content)->desc_rank;
+// 		if (min_asc > ((t_int_ext *)temp->content)->asc_rank)
+// 			min_asc = ((t_int_ext *)temp->content)->desc_rank;
+// 	}
+// 	temp = temp->next;
+// }
 // }
 void	ft_init_tab_b(t_list tab_b, t_list tab_a)
 {
 }
-int create_node(char *value, t_list **tab_a)
+int	create_node(char *value, t_list **tab_a)
 {
 	int	error;
-	int int_atoi;
+	int	int_atoi;
 
 	error = 0;
 	int_atoi = ft_atoi(value, &error);
 	if (error == -1)
 		return (1);
-	
 	ft_lstadd_back(tab_a, ft_lstnew((void *)ft_new_t_int((int_atoi))));
-	return 0;
+	return (0);
 }
-void ft_free_tab(char **tab)
+void	ft_free_tab(char **tab)
 {
-	int i;
+	int	i;
+
 	i = 0;
 	while (tab[i])
 	{
@@ -308,48 +304,53 @@ void ft_free_tab(char **tab)
 	}
 	free(tab);
 }
-int  check_number(char *str)
+int	check_number(char *str)
 {
-	while (*str)
-	{
-		if ((*str == '-' ||  *str == '+')|| (*str >= '0' && *str <= '9'));
-		else 
-			return (1);
-		str++;
-	}
-	return 0;
-}
-int check_duplicate_number(t_list **tab)
-{
-	t_list *start;
-	t_list *temp;
-	
-	printf("123");
-	start = *tab;
+	int	i;
 
+	i = 0;
+	while (str[i])
+	{
+		if (!((str[i] >= '0' && str[i] <= '9') || ((i == 0) && (str[i] == '-'
+						|| str[i] == '+'))))
+			return (1);
+		i++;
+	}
+	if (i == 1 && ((str[i - 1] == '-' || str[i - 1] == '+')))
+		return (1);
+	return (0);
+}
+int	check_duplicate_number(t_list **tab)
+{
+	t_list	*start;
+	t_list	*temp;
+
+	start = *tab;
 	while (*tab)
 	{
 		temp = start;
 		while (temp)
 		{
-			if ((temp != *tab) && (((t_int_ext *)temp->content)->value) == ((t_int_ext *)(*tab)->content)->value)
+			if ((temp != *tab)
+				&& (((t_int_ext *)temp->content)->value) == ((t_int_ext *)(*tab)->content)->value)
 			{
 				ft_free_list(tab);
-				return 1;
+				return (1);
 			}
 			temp = temp->next;
 		}
 		*tab = (*tab)->next;
 	}
 	*tab = start;
-	return 0;
+	return (0);
 }
 
-int create_list(char **argv, t_list **tab_a)
+int	create_list(char **argv, t_list **tab_a)
 {
-	char **tab_split;
+	char	**tab_split;
+	int		i;
+
 	tab_split = NULL;
-	int i;
 	while (*argv)
 	{
 		i = 0;
@@ -368,42 +369,105 @@ int create_list(char **argv, t_list **tab_a)
 				ft_free_list(tab_a);
 				return (1);
 			};
-			
 			i++;
 		}
 		ft_free_tab(tab_split);
 		argv++;
 	}
 	if (check_duplicate_number(tab_a) == 1)
-		return 1;
-	return 0;
+		return (1);
+	return (0);
 }
 
+void	ft_run(t_list **tab, t_list **tab_dest, int middle)
+{
+	t_list	*temp;
+	t_list	*min_desc;
+	t_list	*min_asc;
 
-void ft_run(t_list **tab, t_list **tab_dest)
-{
-	
+	temp = *tab;
+	min_asc = NULL;
+	min_desc = NULL;
+	while (temp)
+	{
+		if (((t_int_ext *)temp->content)->rank < middle)
+		{
+			if (min_desc == NULL
+				|| ((t_int_ext *)min_desc->content)->desc_rank > ((t_int_ext *)temp->content)->desc_rank)
+				min_desc = temp;
+			if (min_asc == NULL
+				|| ((t_int_ext *)min_asc->content)->asc_rank > ((t_int_ext *)temp->content)->asc_rank)
+				min_asc = temp;
+		}
+		temp = temp->next;
+	}
+	// printf("middle = %d min desc : %d, min asc : %d\n", middle,
+	// 	((t_int_ext *)min_desc->content)->desc_rank,
+	// 	((t_int_ext *)min_asc->content)->asc_rank);
+	if (min_desc != NULL && (((t_int_ext *)min_asc->content)->asc_rank == 0
+			|| ((t_int_ext *)min_desc->content)->desc_rank == 0))
+		ft_pb(tab, tab_dest);
+	else if (min_desc != NULL)
+	{
+		if (((t_int_ext *)min_asc->content)->asc_rank == ((t_int_ext *)min_desc->content)->desc_rank)
+		{
+			if (((t_int_ext *)min_asc->content)->rank > ((t_int_ext *)min_desc->content)->rank)
+				ft_rra(tab);
+			else
+				ft_ra(tab);
+		}
+		else if (((t_int_ext *)min_asc->content)->asc_rank > ((t_int_ext *)min_desc->content)->desc_rank)
+			ft_ra(tab);
+		else if (((t_int_ext *)min_asc->content)->asc_rank < ((t_int_ext *)min_desc->content)->desc_rank)
+			ft_rra(tab);
+	}
 }
-void ft_analysis(t_list **tab)
+void	ft_analysis(t_list **tab, t_list **tab_dest)
 {
-	ft_rank(tab);
+	static int	init;
+	static int	middle;
+	static int size;
+	// static int	action = 4;
+
+	if (init == 0)
+	{
+		size = ft_lstsize(*tab);
+		middle = size/2;
+		if (ft_lstsize(*tab) % 2 == 1)
+			middle++;
+		
+		ft_rank(tab);
+		init++;
+	}
 	ft_task(tab);
-	// ft_run(tab,);
+	
+	if (middle < ft_lstsize(*tab))
+	{
+		// printf("%d, %d\n", middle, ft_lstsize(*tab));
+		if (size % 2 == 1)
+			ft_run(tab, tab_dest, middle - 1);
+		else 
+			ft_run(tab, tab_dest, middle );
+		// action--;
+		// printf("action : %d\n", action);
+		ft_analysis(tab, tab_dest);
+	}
 }
 
 int	main(int argc, char **argv)
 {
-	t_list **tab_a;
-	// t_list **tab_b;
-	char **tab;
-	int max_a;
-	t_list *current;
-	t_int_ext *content;
-	t_list *temp;
+	t_list		**tab_a;
+	t_list		**tab_b;
+	char		**tab;
+	int			max_a;
+	t_list		*current;
+	t_int_ext	*content;
+	t_list		*temp;
 
-	// tab_b = malloc(sizeof(t_list **));
+	tab_b = malloc(sizeof(t_list **));
 	tab_a = malloc(sizeof(t_list **));
 	*tab_a = NULL;
+	*tab_b = NULL;
 	if (!tab_a)
 		return (1);
 	if (argc > 1)
@@ -413,22 +477,20 @@ int	main(int argc, char **argv)
 			ft_putendl_fd("Error \n", 2);
 			return (1);
 		}
-		
-			
-
-		ft_analysis(tab_a);
+		ft_analysis(tab_a, tab_b);
 		// ft_init_tab_b(tab_b, tab_a);
-
 		current = *tab_a;
-
 		while (current)
 		{
 			content = (t_int_ext *)current->content;
-			printf("value : %d  ||  rank : %d  || task_desk : %d|| task_asc:% d \n ", content->value, content->rank, content->desc_rank,
-				content->asc_rank);
+			printf("value : %d  ||  rank : %d  || task_desk : \
+				%d|| task_asc:% d \n ",
+					content->value,
+					content->rank,
+					content->desc_rank,
+					content->asc_rank);
 			current = current->next;
 		}
-
 		while (*tab_a)
 		{
 			temp = *tab_a;
@@ -437,6 +499,15 @@ int	main(int argc, char **argv)
 			free(temp);
 		}
 		free(tab_a);
+		current = *tab_b;
+		while (*tab_b)
+		{
+			temp = *tab_b;
+			*tab_b = (*tab_b)->next;
+			free(temp->content);
+			free(temp);
+		}
+		free(tab_b);
 	}
 	return (0);
 }
