@@ -6,7 +6,7 @@
 /*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 20:27:27 by pauldepetri       #+#    #+#             */
-/*   Updated: 2025/01/31 18:32:55 by pde-petr         ###   ########.fr       */
+/*   Updated: 2025/02/05 19:32:45 by pde-petr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ typedef struct s_int_ext
 	int				rank;
 	int				asc_rank;
 	int 			desc_rank;
+	int				rank_opt;
 }					t_int_ext;
 typedef struct s_stock_int
 {
