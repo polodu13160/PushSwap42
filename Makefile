@@ -4,7 +4,7 @@ CC = cc
 #FLAGS = -Wall -Wextra -Werror -g3
 FLAGS = -Wall -Wextra -g3
 NAME = push_swap
-SRCS = main.c parsing.c rules.c algor.c
+SRCS = main.c parsing.c parsing_pt2.c rules.c algo.c
 PRINTF_DIR = ./printf42lyon
 PRINTF = $(PRINTF_DIR)/libftprintf.a
 

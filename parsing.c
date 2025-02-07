@@ -6,7 +6,7 @@
 /*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 18:27:06 by pde-petr          #+#    #+#             */
-/*   Updated: 2025/02/07 19:03:39 by pde-petr         ###   ########.fr       */
+/*   Updated: 2025/02/07 20:06:55 by pde-petr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,49 +79,12 @@ int	check_duplicate_number(t_list **tab)
 			{
 				*tab = start;
 				ft_free_list(tab);
-				return (1);
+				return (-1);
 			}
 			temp = temp->next;
 		}
 		*tab = (*tab)->next;
 	}
 	*tab = start;
-	return (0);
-}
-
-
-int	create_list(char **argv, t_list **tab_a)
-{
-	char	**tab_split;
-	int		i;
-
-	tab_split = NULL;
-	while (*argv)
-	{
-		i = 0;
-		tab_split = ft_split(*argv, ' ');
-		if (tab_split == NULL)
-			return 1;
-		while (tab_split[i])
-		{
-			if (check_number(tab_split[i]) == 1)
-			{
-				ft_free_tab(tab_split);
-				ft_free_list(tab_a);
-				return (-1);
-			}
-			if (create_node(tab_split[i], tab_a) == 1)
-			{
-				ft_free_tab(tab_split);
-				ft_free_list(tab_a);
-				return (-1);
-			};
-			i++;
-		}
-		ft_free_tab(tab_split);
-		argv++;
-	}
-	if (check_duplicate_number(tab_a) == 1)
-			return (-1);
 	return (0);
 }
