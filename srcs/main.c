@@ -6,7 +6,7 @@
 /*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 11:20:39 by pauldepetri       #+#    #+#             */
-/*   Updated: 2025/02/08 18:08:17 by pde-petr         ###   ########.fr       */
+/*   Updated: 2025/02/08 19:45:18 by pde-petr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,20 +58,31 @@ void	ft_rank_opt(t_list **tab_a)
 	}
 }
 
-void	sort_small_value(t_list **tab_a)
+int	check_sort_tab(t_list **tab_a)
 {
 	int		i;
 	t_list	*temp;
 
+	temp = *tab_a;
 	i = 0;
 	ft_rank_opt(tab_a);
-	temp = (*tab_a);
-	temp = *tab_a;
-	while (temp && ((t_int_ext *)temp->content)->rank_opt == i++)
+	while (temp && ((t_int_ext *)temp->content)->rank_opt == i)
 	{
 		temp = temp->next;
+		i++;
 	}
 	if (i == ft_lstsize(*tab_a))
+		return (0);
+	return (1);
+}
+
+void	sort_small_value(t_list **tab_a)
+{
+	int	i;
+
+	i = 0;
+	ft_rank_opt(tab_a);
+	if (check_sort_tab(tab_a) == 0)
 		return ;
 	else if (((t_int_ext *)(*tab_a)->content)->rank_opt > \
 	((t_int_ext *)(*tab_a)->next->content)->rank_opt)
@@ -102,7 +113,7 @@ int	main(int argc, char **argv)
 			return (1);
 		}
 		ft_rank(&tab_a);
-		while (ft_lstsize(tab_a) > 3)
+		while (ft_lstsize(tab_a) > 3 && check_sort_tab(&tab_a) == 1)
 		{
 			ft_analysis(&tab_a, &tab_b, 0);
 		}

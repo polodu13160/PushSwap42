@@ -6,14 +6,14 @@
 /*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 20:27:27 by pauldepetri       #+#    #+#             */
-/*   Updated: 2025/02/08 17:43:12 by pde-petr         ###   ########.fr       */
+/*   Updated: 2025/02/08 19:14:56 by pde-petr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PUSH_SWAP_H
 # define FT_PUSH_SWAP_H
 
-# include "printf42lyon/ft_printf.h"
+# include "./printf42lyon/ft_printf.h"
 
 typedef struct s_int_ext
 {
