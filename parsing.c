@@ -6,7 +6,7 @@
 /*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 18:27:06 by pde-petr          #+#    #+#             */
-/*   Updated: 2025/02/07 20:06:55 by pde-petr         ###   ########.fr       */
+/*   Updated: 2025/02/08 17:59:35 by pde-petr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@ int	check_number(char *str)
 	return (0);
 }
 
-
-
 int	create_node(char *value, t_list **tab_a)
 {
 	int	error;
@@ -58,7 +56,7 @@ int	create_node(char *value, t_list **tab_a)
 	{
 		(*tab_a) = ft_lstnew((ft_new_t_int((int_atoi))));
 	}
-	else 
+	else
 		ft_lstadd_back(tab_a, ft_lstnew(ft_new_t_int((int_atoi))));
 	return (0);
 }
@@ -74,8 +72,9 @@ int	check_duplicate_number(t_list **tab)
 		temp = start;
 		while (temp)
 		{
-			if ((temp != *tab)
-				&& ((t_int_ext *)temp->content)->value == ((t_int_ext *)(*tab)->content)->value)
+			if ((temp != *tab) \
+			&& (((t_int_ext *)temp->content)->value == \
+			((t_int_ext *)(*tab)->content)->value))
 			{
 				*tab = start;
 				ft_free_list(tab);

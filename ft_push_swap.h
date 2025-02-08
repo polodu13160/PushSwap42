@@ -6,12 +6,12 @@
 /*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 20:27:27 by pauldepetri       #+#    #+#             */
-/*   Updated: 2025/02/07 20:02:41 by pde-petr         ###   ########.fr       */
+/*   Updated: 2025/02/08 17:43:12 by pde-petr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PUSH_SWAP
-# define FT_PUSH_SWAP
+#ifndef FT_PUSH_SWAP_H
+# define FT_PUSH_SWAP_H
 
 # include "printf42lyon/ft_printf.h"
 
@@ -40,12 +40,15 @@ void		ft_free_list(t_list **tab);
 
 void		ft_free_tab(char **tab);
 void		ft_rank(t_list **tab_a);
+void		ft_rank_opt(t_list **tab_a);
 void		ft_task(t_list **tab_a);
 int			ft_run(t_list **tab, t_list **tab_dest, int middle);
 void		ft_analysis(t_list **tab, t_list **tab_dest, int init);
 void		ft_push_b(t_list **tab_a, t_list **tab_b);
 void		sort_small_value(t_list **tab_a);
 void		ft_push_a(t_list **tab_a, t_list **tab_b);
-
+int			ft_move_to_b(t_list *min_desc, t_list *min_asc, t_list **tab,
+				t_list **tab_dest);
+void		ft_move_to_a(t_list **tab_a, t_list **tab_b, int i, int swap_to_a);
 
 #endif

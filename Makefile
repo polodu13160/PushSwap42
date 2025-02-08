@@ -1,10 +1,10 @@
 .PHONY: all clean fclean re init
 
 CC = cc
-#FLAGS = -Wall -Wextra -Werror -g3
-FLAGS = -Wall -Wextra -g3
+FLAGS = -Wall -Wextra -Werror -g3
+# FLAGS = -Wall -Wextra -g3
 NAME = push_swap
-SRCS = main.c parsing.c parsing_pt2.c rules.c algo.c
+SRCS = main.c parsing.c parsing_pt2.c rules.c rules_pt2.c free.c algo.c algo_pt2.c
 PRINTF_DIR = ./printf42lyon
 PRINTF = $(PRINTF_DIR)/libftprintf.a
 

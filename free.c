@@ -6,7 +6,7 @@
 /*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 18:42:29 by pde-petr          #+#    #+#             */
-/*   Updated: 2025/02/07 19:50:42 by pde-petr         ###   ########.fr       */
+/*   Updated: 2025/02/08 17:42:30 by pde-petr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ft_free_list(t_list **tab)
 
 void	ft_free_tab(char **tab)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (tab[i])
