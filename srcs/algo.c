@@ -6,7 +6,7 @@
 /*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 12:48:22 by pde-petr          #+#    #+#             */
-/*   Updated: 2025/02/08 17:04:53 by pde-petr         ###   ########.fr       */
+/*   Updated: 2025/02/10 15:30:40 by pde-petr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	ft_task(t_list **tab_a)
 
 void	ft_analysis(t_list **tab, t_list **tab_dest, int init)
 {
-	static int	middle;
+	static int	chunk;
 	static int	size;
 	int			stop;
 
@@ -48,14 +48,14 @@ void	ft_analysis(t_list **tab, t_list **tab_dest, int init)
 	if (init == 0)
 	{
 		size = ft_lstsize(*tab);
-		middle = size / 2 / 2;
+		chunk = size / 4;
 		ft_rank_opt(tab);
 		init++;
 	}
 	ft_task(tab);
-	if ((ft_lstsize(*tab) - middle) < ft_lstsize(*tab))
+	if ((size - chunk) <= ft_lstsize(*tab))
 	{
-		stop = ft_run(tab, tab_dest, middle);
+		stop = ft_run(tab, tab_dest, chunk);
 		if (stop == 0)
 			ft_analysis(tab, tab_dest, 1);
 	}

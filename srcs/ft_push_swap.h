@@ -6,7 +6,7 @@
 /*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 20:27:27 by pauldepetri       #+#    #+#             */
-/*   Updated: 2025/02/08 19:14:56 by pde-petr         ###   ########.fr       */
+/*   Updated: 2025/02/10 14:45:45 by pde-petr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void		ft_free_tab(char **tab);
 void		ft_rank(t_list **tab_a);
 void		ft_rank_opt(t_list **tab_a);
 void		ft_task(t_list **tab_a);
-int			ft_run(t_list **tab, t_list **tab_dest, int middle);
+int			ft_run(t_list **tab, t_list **tab_dest, int chunk);
 void		ft_analysis(t_list **tab, t_list **tab_dest, int init);
 void		ft_push_b(t_list **tab_a, t_list **tab_b);
 void		sort_small_value(t_list **tab_a);

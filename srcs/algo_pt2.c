@@ -6,7 +6,7 @@
 /*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 12:48:22 by pde-petr          #+#    #+#             */
-/*   Updated: 2025/02/08 18:27:07 by pde-petr         ###   ########.fr       */
+/*   Updated: 2025/02/10 15:18:20 by pde-petr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	ft_push_b(t_list **tab_a, t_list **tab_b)
 int	ft_move_to_b(t_list *min_desc, t_list *min_asc, t_list **tab,
 		t_list **tab_dest)
 {
-	if (min_desc != NULL)
+	if (min_desc != NULL && *tab != NULL)
 	{
 		if ((((t_int_ext *)min_asc->content)->asc_rank == 0
 				|| ((t_int_ext *)min_desc->content)->desc_rank == 0))
@@ -68,7 +68,7 @@ int	ft_move_to_b(t_list *min_desc, t_list *min_asc, t_list **tab,
 	return (1);
 }
 
-int	ft_run(t_list **tab, t_list **tab_dest, int middle)
+int	ft_run(t_list **tab, t_list **tab_dest, int chunk)
 {
 	t_list	*temp;
 	t_list	*min_desc;
@@ -79,7 +79,7 @@ int	ft_run(t_list **tab, t_list **tab_dest, int middle)
 	min_desc = NULL;
 	while (temp)
 	{
-		if (((t_int_ext *)temp->content)->rank_opt <= middle)
+		if (((t_int_ext *)temp->content)->rank_opt <= chunk)
 		{
 			if (min_desc == NULL
 				|| ((t_int_ext *)min_desc->content)->desc_rank > \
